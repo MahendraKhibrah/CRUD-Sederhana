@@ -1,14 +1,18 @@
 <?php
-require_once __DIR__ . "/../config/database.php";
 
+use Controller\mahasiswaController;
+use Repository\MahasiswaRepository;
 use config\database;
 
-$db = database::getConnection();
-$query = "SELECT * FROM mahasiswa";
-$data = $db->prepare($query);
-$data->execute();
+require_once __DIR__ . "../controller/mahasiswaController.php";
+require_once __DIR__ . "../repository/mahasiswaRepository.php";
+require_once __DIR__ . "../model/mahasiswa.php";
+require_once __DIR__ . "../config/database.php";
 
-$persons = $data->fetchAll(\PDO::FETCH_ASSOC);
+
+$connection = database::getConnection();
+$mahasiswaRepository = new MahasiswaRepository($connection);
+$mahasiswaController = new mahasiswaController($mahasiswaRepository);
 ?>
 
 <!DOCTYPE html>
@@ -55,20 +59,21 @@ $persons = $data->fetchAll(\PDO::FETCH_ASSOC);
             </thead>
             <tbody>
                 <?php $i = 1;
-                foreach ($persons as $person) : ?>
+                foreach ($mahasiswaController->showMahasiswa() as $person) : ?>
                     <tr>
                         <th scope="row"><?= $i; ?></th>
-                        <td><?= $person['nrp']; ?></td>
-                        <td><?= $person['nama']; ?></td>
-                        <td><?= $person['jenis_kelamin']; ?></td>
-                        <td><?= $person['kelas']; ?></td>
-                        <td><?= $person['jurusan']; ?></td>
-                        <td><?= $person['email']; ?></td>
-                        <td><?= $person['alamat']; ?></td>
-                        <td><?= $person['no_hp']; ?></td>
-                        <td><?= $person['asal_sma']; ?></td>
-                        <td><a class="btn btn-warning" href="edit.php?id=<?= $person['id'] ?>">edit</a>
-                            <form action="../controller/DeleteMahasiswa.php?id=<?= $person['id'] ?>" method="post">
+                        <td><?= $person->getNrp(); ?></td>
+                        <td><?= $person->getNama(); ?></td>
+                        <td><?= $person->getJenisKelamin(); ?></td>
+                        <td><?= $person->getKelas(); ?></td>
+                        <td><?= $person->getJurusan(); ?></td>
+                        <td><?= $person->getEmail(); ?></td>
+                        <td><?= $person->getAlamat(); ?></td>
+                        <td><?= $person->getNoHp(); ?></td>
+                        <td><?= $person->getAsalSMA(); ?></td>
+                        <td><a class="btn btn-warning" href="edit.php?id=<?= $person->getId() ?>">edit</a>
+                            <!-- <form action="../controller/DeleteMahasiswa.php?id=" method="post"> -->
+                            <form action="$mahasiswaController->deleteMahasiswa($person->getId())" method="post">
                                 <button class="btn btn-danger">delete</button>
                             </form>
                         </td>
