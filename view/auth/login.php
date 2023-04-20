@@ -20,7 +20,7 @@ if (isset($_POST['username'])) {
 
 session_start();
 if (isset($_SESSION['auth'])) {
-    if ($_SESSION['auth'] == false) {
+    if ($_SESSION['auth'] == true) {
         header("location: /praktikum_5/view/tabelMahasiswa/home.php");
     }
 }
@@ -49,6 +49,13 @@ if (isset($_SESSION['auth'])) {
         <div class="card-body">
             <div class="card-title h3 weight-bold">LOGIN</div>
             <form action="login.php" method="post">
+
+                <?php if ($_SESSION['message'] != []) : ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?= $_SESSION['message']['login']; ?>
+                    </div>
+                <?php endif;
+                $_SESSION['message'] = []; ?>
 
                 <label class="form-label">username : </label>
                 <input type="text" name="username" class="form-control mb-2">

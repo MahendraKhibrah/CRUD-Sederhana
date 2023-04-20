@@ -22,10 +22,10 @@ namespace Controller {
                 }
             }
 
+            session_start();
             if ($isExist == true) {
-                header("location: /praktikum_5/view/auth/register.php");
+                $_SESSION['message'] = ['register' => 'data sudah terdaftar'];
             } else {
-                session_start();
                 $_SESSION['username'] = $username;
                 $_SESSION['auth'] = true;
 
@@ -50,7 +50,11 @@ namespace Controller {
                         $_SESSION['username'] = $username;
 
                         header("location: /praktikum_5/view/tabelMahasiswa/home.php");
+                    } else {
+                        $_SESSION['message'] = ['login' => 'password salah'];
                     }
+                } else {
+                    $_SESSION['message'] = ['login' => 'username salah'];
                 }
             }
         }

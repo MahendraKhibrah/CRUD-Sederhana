@@ -17,6 +17,11 @@ $mahasiswaController = new mahasiswaController($mahasiswaRepository);
 
 $person = $mahasiswaController->showMahasiswa($_GET['id'])[1];
 
+session_start();
+if ($_SESSION['auth'] == false) {
+    header("location: /praktikum_5/view/auth/login.php");
+}
+
 if (isset($_POST['id'])) {
 
     $mahasiswaController->updateMahasiswa(

@@ -20,7 +20,7 @@ if (isset($_POST['status'])) {
 
 session_start();
 if (isset($_SESSION['auth'])) {
-    if ($_SESSION['auth'] == false) {
+    if ($_SESSION['auth'] == true) {
         header("location: /praktikum_5/view/tabelMahasiswa/home.php");
     }
 }
@@ -49,6 +49,14 @@ if (isset($_SESSION['auth'])) {
         <div class="card-body">
             <div class="card-title h3 weight-bold">REGISTER</div>
             <form action="register.php" method="post">
+
+                <?php if ($_SESSION['message'] != []) : ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?= $_SESSION['message']['register']; ?>
+                    </div>
+                <?php endif;
+                $_SESSION['message'] = []; ?>
+
                 <labe class="form-label">status : </labe>
                 <select class="form-control" name="status">
                     <option selected disabled>pilih status..</option>
