@@ -1,15 +1,37 @@
 <?php
+
+use Controller\mahasiswaController;
+use Repository\MahasiswaRepository;
+use config\database;
+use Models\Mahasiswa;
+
+require_once __DIR__ . "/../controller/mahasiswaController.php";
+require_once __DIR__ . "/../repository/mahasiswaRepository.php";
+require_once __DIR__ . "/../model/mahasiswa.php";
 require_once __DIR__ . "/../config/database.php";
 
-use config\database;
 
-$id = $_GET['id'];
-$db = database::getConnection();
-$query = "SELECT * FROM mahasiswa WHERE id='$id'";
-$data = $db->prepare($query);
-$data->execute();
+$connection = database::getConnection();
+$mahasiswaRepository = new MahasiswaRepository($connection);
+$mahasiswaController = new mahasiswaController($mahasiswaRepository);
 
-$persons = $data->fetch(\PDO::FETCH_ASSOC);
+$person = $mahasiswaController->showMahasiswa($_GET['id'])[1];
+
+if (isset($_POST['id'])) {
+
+    $mahasiswaController->updateMahasiswa(
+        $_POST['nrp'],
+        $_POST['nama'],
+        $_POST['jenis_kelamin'],
+        $_POST['kelas'],
+        $_POST['jurusan'],
+        $_POST['email'],
+        $_POST['alamat'],
+        $_POST['no_hp'],
+        $_POST['asal_sma'],
+        $_POST['id']
+    );
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,10 +56,10 @@ $persons = $data->fetch(\PDO::FETCH_ASSOC);
             <div class="card">
                 <div class="card-body">
 
-                    <form action="../controller/EditMahasiswa.php?id=<?= $id ?>" method="post">
+                    <form action="edit.php" method="post">
 
-                        <input type="text" name="nrp" id="" class="form-control mb-2" placeholder="nrp..." value="<?= $persons['nrp'] ?>">
-                        <input type="text" name="nama" id="" class="form-control mb-2" placeholder="nama..." value="<?= $persons['nama'] ?>">
+                        <input type="text" name="nrp" id="" class="form-control mb-2" placeholder="nrp..." value="<?= $person->getNrp() ?>">
+                        <input type="text" name="nama" id="" class="form-control mb-2" placeholder="nama..." value="<?= $person->getNama() ?>">
                         <div class=" form-group">
                             <select class="form-control" name="jenis_kelamin">
                                 <option selected disabled>pilih gender</option>
@@ -45,7 +67,7 @@ $persons = $data->fetch(\PDO::FETCH_ASSOC);
                                 <option value="perempuan">perempuan</option>
                             </select>
                         </div>
-                        <input type="text" name="kelas" id="" class="form-control mb-2" placeholder="kelas..." value="<?= $persons['kelas'] ?>">
+                        <input type="text" name="kelas" id="" class="form-control mb-2" placeholder="kelas..." value="<?= $person->getKelas() ?>">
                         <div class="form-group">
                             <select class="form-control" name="jurusan">
                                 <option selected disabled>pilih jurusan</option>
@@ -54,10 +76,11 @@ $persons = $data->fetch(\PDO::FETCH_ASSOC);
                                 <option value="perempuan">sains data</option>
                             </select>
                         </div>
-                        <input type="email" name="email" id="" class="form-control mb-2" placeholder="email..." value="<?= $persons['email'] ?>">
-                        <input type="text" name="alamat" id="" class="form-control mb-2" placeholder="alamat..." value="<?= $persons['alamat'] ?>">
-                        <input type="text" name="no_hp" id="" class="form-control mb-2" placeholder="No HP..." value="<?= $persons['no_hp'] ?>">
-                        <input type="text" name="asal_sma" id="" class="form-control mb-2" placeholder="asal sma..." value="<?= $persons['asal_sma'] ?>">
+                        <input type="email" name="email" id="" class="form-control mb-2" placeholder="email..." value="<?= $person->getEmail() ?>">
+                        <input type="text" name="alamat" id="" class="form-control mb-2" placeholder="alamat..." value="<?= $person->getAlamat() ?>">
+                        <input type="text" name="no_hp" id="" class="form-control mb-2" placeholder="No HP..." value="<?= $person->getNoHp() ?>">
+                        <input type="text" name="asal_sma" id="" class="form-control mb-2" placeholder="asal sma..." value="<?= $person->getAsalSMA() ?>">
+                        <input type="hidden" value="<?= $person->getId() ?>" name="id">
 
                         <button type="submit" class="btn btn-primary">submit</button>
                         <a href="home.php" class="btn btn-danger">back</a>

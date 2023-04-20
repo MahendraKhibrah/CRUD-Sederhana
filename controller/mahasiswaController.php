@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace Controller {
 
@@ -67,11 +67,13 @@ namespace Controller {
             );
             $mahasiswa->setId($id);
             $this->mahasiswaRepo->update($mahasiswa);
+
+            header("location: ../view/home.php");
         }
 
         public function showMahasiswa($id = "")
         {
-            if ($id = "") {
+            if ($id == "") {
                 return $this->mahasiswaRepo->findAll();
             } else {
                 return $this->mahasiswaRepo->find($id);

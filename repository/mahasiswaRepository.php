@@ -37,14 +37,19 @@ namespace Repository {
 
         public function update(Mahasiswa $mahasiswa)
         {
-            $query = "UPDATE mahasiswa SET nrp='?', nama='?', jenis_kelamin='?', kelas='?', jurusan='?', email='?', alamat='?', no_hp='?', asal_sma='?' WHERE id='?'";
+            $query = "UPDATE mahasiswa SET nrp=?, nama=?, jenis_kelamin=?, kelas=?, jurusan=?, email=?, alamat=?, no_hp=?, asal_sma=? WHERE id=?";
             $data = $this->koneksi->prepare($query);
             $data->execute([
                 $mahasiswa->getNrp(),
                 $mahasiswa->getNama(),
-                $mahasiswa->getJenisKelamin(), $mahasiswa->getKelas(), $mahasiswa->getJurusan(),
-                $mahasiswa->getEmail(), $mahasiswa->getAlamat(), $mahasiswa->getNoHp(),
-                $mahasiswa->getAsalSMA(), $mahasiswa->getId()
+                $mahasiswa->getJenisKelamin(),
+                $mahasiswa->getKelas(),
+                $mahasiswa->getJurusan(),
+                $mahasiswa->getEmail(),
+                $mahasiswa->getAlamat(),
+                $mahasiswa->getNoHp(),
+                $mahasiswa->getAsalSMA(),
+                $mahasiswa->getId()
             ]);
         }
 
@@ -63,16 +68,14 @@ namespace Repository {
                     $row["jenis_kelamin"],
                     $row["kelas"],
                     $row["jurusan"],
-                    $row["wmail"],
+                    $row["email"],
                     $row["alamat"],
                     $row["no_hp"],
                     $row["asal_sma"]
                 );
                 $mahasiswa->setId($row["id"]);
-
                 array_push($result, $mahasiswa);
             }
-
             return $result;
         }
 
@@ -89,7 +92,7 @@ namespace Repository {
                     $row["jenis_kelamin"],
                     $row["kelas"],
                     $row["jurusan"],
-                    $row["wmail"],
+                    $row["email"],
                     $row["alamat"],
                     $row["no_hp"],
                     $row["asal_sma"]

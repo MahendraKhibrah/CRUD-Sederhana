@@ -4,15 +4,33 @@ use Controller\mahasiswaController;
 use Repository\MahasiswaRepository;
 use config\database;
 
-require_once __DIR__ . "../controller/mahasiswaController.php";
-require_once __DIR__ . "../repository/mahasiswaRepository.php";
-require_once __DIR__ . "../model/mahasiswa.php";
-require_once __DIR__ . "../config/database.php";
+require_once __DIR__ . "/../controller/mahasiswaController.php";
+require_once __DIR__ . "/../repository/mahasiswaRepository.php";
+require_once __DIR__ . "/../model/mahasiswa.php";
+require_once __DIR__ . "/../config/database.php";
 
 
 $connection = database::getConnection();
 $mahasiswaRepository = new MahasiswaRepository($connection);
 $mahasiswaController = new mahasiswaController($mahasiswaRepository);
+
+if (isset($_POST['delete'])) {
+    $mahasiswaController->deleteMahasiswa($_POST['delete']);
+}
+
+if (isset($_POST['create'])) {
+    $mahasiswaController->createMahasiswa(
+        $_POST['nrp'],
+        $_POST['nama'],
+        $_POST['jenis_kelamin'],
+        $_POST['kelas'],
+        $_POST['jurusan'],
+        $_POST['email'],
+        $_POST['alamat'],
+        $_POST['no_hp'],
+        $_POST['asal_sma'],
+    );
+}
 ?>
 
 <!DOCTYPE html>
@@ -72,9 +90,9 @@ $mahasiswaController = new mahasiswaController($mahasiswaRepository);
                         <td><?= $person->getNoHp(); ?></td>
                         <td><?= $person->getAsalSMA(); ?></td>
                         <td><a class="btn btn-warning" href="edit.php?id=<?= $person->getId() ?>">edit</a>
-                            <!-- <form action="../controller/DeleteMahasiswa.php?id=" method="post"> -->
-                            <form action="$mahasiswaController->deleteMahasiswa($person->getId())" method="post">
-                                <button class="btn btn-danger">delete</button>
+                            <form method="post" action="home.php">
+                                <input type="hidden" value="<?= $person->getId() ?>" name="delete">
+                                <button class="btn btn-danger" type="submit">delete</button>
                             </form>
                         </td>
                     </tr>
@@ -95,7 +113,7 @@ $mahasiswaController = new mahasiswaController($mahasiswaRepository);
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="../controller/CreateMahasiswa.php" method="post">
+                    <form action="home.php" method="post">
                         <input type="text" name="nrp" id="" class="form-control mb-2" placeholder="nrp...">
                         <input type="text" name="nama" id="" class="form-control mb-2" placeholder="nama...">
                         <div class="form-group">
@@ -118,6 +136,7 @@ $mahasiswaController = new mahasiswaController($mahasiswaRepository);
                         <input type="text" name="alamat" id="" class="form-control mb-2" placeholder="alamat...">
                         <input type="text" name="no_hp" id="" class="form-control mb-2" placeholder="No HP...">
                         <input type="text" name="asal_sma" id="" class="form-control mb-2" placeholder="asal sma...">
+                        <input type="hidden" name="create">
 
                 </div>
                 <div class="modal-footer">
