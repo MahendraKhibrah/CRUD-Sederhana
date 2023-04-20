@@ -5,10 +5,10 @@ use Repository\MahasiswaRepository;
 use config\database;
 use Models\Mahasiswa;
 
-require_once __DIR__ . "/../controller/mahasiswaController.php";
-require_once __DIR__ . "/../repository/mahasiswaRepository.php";
-require_once __DIR__ . "/../model/mahasiswa.php";
-require_once __DIR__ . "/../config/database.php";
+require_once __DIR__ . "/../../controller/mahasiswaController.php";
+require_once __DIR__ . "/../../repository/mahasiswaRepository.php";
+require_once __DIR__ . "/../../model/mahasiswa.php";
+require_once __DIR__ . "/../../config/database.php";
 
 
 $connection = database::getConnection();

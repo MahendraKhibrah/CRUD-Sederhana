@@ -33,13 +33,13 @@ namespace Controller {
                 $no_hp,
                 $asal_sma
             ));
-            header("location: ../view/home.php");
+            header("location: ../../view/tabelMahasiswa/home.php");
         }
 
         public function deleteMahasiswa(int $id)
         {
             $this->mahasiswaRepo->delete($id);
-            header("location: ../view/home.php");
+            header("location: ../../view/tabelMahasiswa/home.php");
         }
 
         public function updateMahasiswa(
@@ -68,7 +68,7 @@ namespace Controller {
             $mahasiswa->setId($id);
             $this->mahasiswaRepo->update($mahasiswa);
 
-            header("location: ../view/home.php");
+            header("location: ../../view/tabelMahasiswa/home.php");
         }
 
         public function showMahasiswa($id = "")
