@@ -57,7 +57,7 @@ if (isset($_SESSION['auth'])) {
                 <?php endif;
                 $_SESSION['message'] = []; ?>
 
-                <labe class="form-label">status : </labe>
+                <label class="form-label">status : </label>
                 <select class="form-control" name="status">
                     <option selected disabled>pilih status..</option>
                     <option value="dosen">dosen / dosen luar biasa</option>
