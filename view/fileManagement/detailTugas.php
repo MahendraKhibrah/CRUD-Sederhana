@@ -24,7 +24,7 @@ if ($_SESSION['auth'] == false) {
 <body>
     <?php require_once __DIR__ . "/../components/navbar.php" ?>
 
-    <div class="pl-4">
+    <div class="container">
         <div class="h1 pt-4">4. QUEUE</div>
     </div>
 
@@ -56,6 +56,77 @@ if ($_SESSION['auth'] == false) {
                             <button class="btn btn-primary mt-auto mb-2">submit tugas</button>
                             <button class="btn btn-secondary mt-auto" disabled>anda sudah submit</button>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php else : ?>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="my-4 box-shadow">
+                        <div class="card shadow p-3 py-2">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="mb-1 font-weight-bold">Deskripsi : </div>
+                                    <span class="mb-1">bla bla bla</span>
+
+                                    <div class="mb-1 font-weight-bold">Mengumpulkan : </div>
+                                    <span class="mb-1">27 mahasiswa</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="my-4 box-shadow">
+                        <div class="card shadow p-3 py-2">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nama</th>
+                                        <th scope="col">file</th>
+                                        <th scope="col">nilai</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>
+                                            <button class="btn btn-warning">download</button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary">
+                                                beri nilai
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <th scope="row">2</th>
+                                    <td>Patrick</td>
+                                    <td>
+                                        <button class="btn btn-warning">download</button>
+                                    </td>
+                                    <td>
+                                        90
+                                    </td>
+                                    </tr>
+                                    <th scope="row">3</th>
+                                    <td>Larry</td>
+                                    <td>
+                                        <button class="btn btn-warning">download</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary">
+                                            beri nilai
+                                        </button>
+                                    </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

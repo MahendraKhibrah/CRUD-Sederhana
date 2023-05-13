@@ -26,10 +26,62 @@ if ($_SESSION['auth'] == false) {
 
     <div class="pl-4">
         <div class="h1 pt-4">Nama Mata Kuliah</div>
-        <div class="h2 pb-1">Tugas</div>
+        <div class="row">
+
+            <div class="col-md-10">
+                <div class="h2 pb-1">Tugas</div>
+            </div>
+            <?php if ($_SESSION['role'] == "dosen") : ?>
+                <div class="col-md-2">
+                    <button class="btn btn-info">tambah tugas</button>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+    <hr>
     </div>
 
     <?php if ($_SESSION['role'] == "mahasiswa") : ?>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mx-2 my-4 box-shadow">
+                    <div class="card shadow p-3 py-2 mx-2">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-1 h5">4. Queue</div>
+                            </div>
+
+                            <div class="col-md-10"></div>
+                            <div class="col-md-2">
+                                <form action="" method="post">
+                                    <button class="btn btn-primary">detail</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="mx-2 my-4 box-shadow">
+                    <div class="card shadow p-3 py-2 mx-2">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-1 h5">5. Stack</div>
+                            </div>
+
+                            <div class="col-md-10"></div>
+                            <div class="col-md-2">
+                                <form action="" method="post">
+                                    <button class="btn btn-primary">detail</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php else : ?>
         <div class="row">
             <div class="col-md-6">
                 <div class="mx-2 my-4 box-shadow">

@@ -14,7 +14,7 @@
                 <li class="nav-item">
                     <a href="/praktikum_5/view/tabelMahasiswa/home.php" class="nav-link">tabel mahasiswa</a>
                 </li>
-                <li class="nav-item"><a href="/praktikum_5/view/fileManagement/mahasiswa.php" class="nav-link">file tugas</a></li>
+                <li class="nav-item"><a href="/praktikum_5/view/fileManagement/materi.php" class="nav-link">file tugas</a></li>
             <?php endif; ?>
         </ul>
 

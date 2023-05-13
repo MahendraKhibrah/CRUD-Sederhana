@@ -24,13 +24,64 @@ if ($_SESSION['auth'] == false) {
 <body>
     <?php require_once __DIR__ . "/../components/navbar.php" ?>
 
+    <div class="pl-4">
+        <div class="h1 pt-4">TEKNIK INFORMATIKA</div>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="h2 pb-1">Mata Kuliah</div>
+            </div>
+            <?php if ($_SESSION['role'] == "dosen") : ?>
+                <div class="col-md-2">
+                    <button class="btn btn-info">tambah matkul</button>
+                </div>
+            <?php endif; ?>
+        </div>
+        <hr>
+    </div>
+
     <?php if ($_SESSION['role'] == "mahasiswa") : ?>
-        <div class="pl-4">
-            <div class="h1 pt-4">TEKNIK INFORMATIKA</div>
-            <div class="h2 pb-1">Mata Kuliah</div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="my-4 box-shadow">
+                    <div class="card shadow p-3 py-2">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-1 h5">Algoritma Struktur Data</div>
+                            </div>
+
+                            <div class="col-md-10"></div>
+                            <div class="col-md-2">
+                                <form action="" method="post">
+                                    <button class="btn btn-primary">pilih</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="my-4 box-shadow">
+                    <div class="card shadow p-3 py-2">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-1 h5">5. Stack</div>
+                            </div>
+
+                            <div class="col-md-10"></div>
+                            <div class="col-md-2">
+                                <form action="" method="post">
+                                    <button class="btn btn-primary">pilih</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-
+    <?php else : ?>
         <div class="row">
             <div class="col-md-6">
                 <div class="my-4 box-shadow">

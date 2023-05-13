@@ -28,6 +28,7 @@ namespace Controller {
             } else {
                 $_SESSION['username'] = $username;
                 $_SESSION['auth'] = true;
+                $_SESSION['role'] = $status;
 
                 $user = new User($status, $username, $email, $password);
                 $user->setPassword($password);
