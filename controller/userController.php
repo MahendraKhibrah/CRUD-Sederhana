@@ -48,6 +48,7 @@ namespace Controller {
                     if ($user->getPassword() == md5($password)) {
                         $_SESSION['auth'] = true;
                         $_SESSION['username'] = $username;
+                        $_SESSION['role'] = $user->getStatus();
 
                         header("location: /praktikum_5/view/tabelMahasiswa/home.php");
                     } else {
@@ -62,6 +63,7 @@ namespace Controller {
         public function logoutUser()
         {
             session_start();
+            session_destroy();
             $_SESSION['auth'] = false;
 
             header("location: /praktikum_5/view/home.php");
