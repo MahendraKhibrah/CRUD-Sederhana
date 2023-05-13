@@ -5,10 +5,8 @@ namespace Models {
     {
         public function __construct(
             private string $nama = "",
-            private string $ukuran = "",
-            private string $tipe = "",
             private string $deskripsi = "",
-            private string $path = ""
+            private string $idMatkul = ""
         ) {
         }
 
@@ -24,24 +22,15 @@ namespace Models {
             $this->nama = $data;
         }
 
-        public function setUkuran(int $data)
-        {
-            $this->ukuran = $data;
-        }
-
-        public function setTipe(string $data)
-        {
-            $this->tipe = $data;
-        }
 
         public function setDeskripsi(string $data)
         {
             $this->deskripsi = $data;
         }
 
-        public function setPath(string $data)
+        public function setIdMatkul(int $data)
         {
-            $this->path = $data;
+            $this->idMatkul = $data;
         }
 
         public function getId()
@@ -54,24 +43,14 @@ namespace Models {
             return $this->nama;
         }
 
-        public function getUkuran()
-        {
-            return $this->ukuran;
-        }
-
-        public function getTipe()
-        {
-            return $this->tipe;
-        }
-
         public function getDeskripsi()
         {
             return $this->deskripsi;
         }
 
-        public function getPath()
+        public function getIdMatkul()
         {
-            return $this->path;
+            return $this->idMatkul;
         }
     }
 }
