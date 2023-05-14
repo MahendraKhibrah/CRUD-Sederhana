@@ -19,8 +19,12 @@ if (isset($_POST['submit'])) {
         $_FILES['file']['name'],
         $_FILES['file']['size'],
         $_FILES['file']['type'],
-        $_POST['deskripsi']
+        $_POST['deskripsi'],
+        "",
+        ""
     );
+    var_dump($fileTugasController->showFile());
+    die;
 }
 
 if (isset($_POST['download'])) {

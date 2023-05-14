@@ -1,7 +1,7 @@
 <?php
 
 namespace Models {
-    class FileTugas
+    class Tugass
     {
         public function __construct(
             private string $nama = "",

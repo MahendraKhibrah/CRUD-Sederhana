@@ -1,14 +1,17 @@
 <?php
 
 namespace Models {
-    class FileTugas
+    class FileTugass
     {
         public function __construct(
             private string $nama = "",
             private string $ukuran = "",
             private string $tipe = "",
             private string $deskripsi = "",
-            private string $path = ""
+            private string $path = "",
+            private string $namaUser = "",
+            private string $idTugas = "",
+            private string $nilai = ""
         ) {
         }
 
@@ -44,6 +47,21 @@ namespace Models {
             $this->path = $data;
         }
 
+        public function setNamaUser(int $data)
+        {
+            $this->namaUser = $data;
+        }
+
+        public function setIdTugas(int $data)
+        {
+            $this->idTugas = $data;
+        }
+
+        public function setNilai(int $data)
+        {
+            $this->nilai = $data;
+        }
+
         public function getId()
         {
             return $this->id;
@@ -72,6 +90,21 @@ namespace Models {
         public function getPath()
         {
             return $this->path;
+        }
+
+        public function getNamaUser()
+        {
+            return $this->namaUser;
+        }
+
+        public function getIdTugas()
+        {
+            return $this->idTugas;
+        }
+
+        public function getNilai()
+        {
+            return $this->nilai;
         }
     }
 }

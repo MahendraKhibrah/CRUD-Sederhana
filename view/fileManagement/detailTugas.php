@@ -1,11 +1,56 @@
 <?php
 
+use Controller\FileTugasController;
+use Repository\FileTugasRepository;
 use config\database;
+
+require_once __DIR__ . "/../../controller/fileTugasController.php";
+require_once __DIR__ . "/../../repository/fileTugasRepository.php";
+require_once __DIR__ . "/../../model/fileTugas.php";
+require_once __DIR__ . "/../../model/tugass.php";
+require_once __DIR__ . "/../../config/database.php";
+
+$connection = database::getConnection();
+$fileTugasRepository = new FileTugasRepository($connection);
+$fileTugasController = new FileTugasController($fileTugasRepository);
 
 session_start();
 if ($_SESSION['auth'] == false) {
     header("location: /praktikum_5/view/auth/login.php");
+} else {
+    $idTugas = 0;
+    if (!isset($_POST['tugas'])) {
+        if (!isset($_POST['idTugas'])) {
+            header("location: /praktikum_5/view/fileManagement/materi.php");
+        }
+        $idTugas = $_POST['idTugas'];
+    } else {
+        $idTugas = $_POST['tugas'];
+    }
 }
+
+if (isset($_POST['submitFile'])) {
+    $fileTugasController->uploadFile(
+        $_FILES['file']['tmp_name'],
+        $_FILES['file']['name'],
+        $_FILES['file']['size'],
+        $_FILES['file']['type'],
+        $_POST['deskripsi'],
+        $_SESSION['username'],
+        $_POST['idTugas']
+    );
+}
+
+if (isset($_POST['download'])) {
+    $fileTugasController->downloadFile($_POST['download']);
+}
+
+if (isset($_POST['insertNilai'])) {
+    $fileTugasController->updateNilai($_POST['nilai'], $_POST['insertNilai']);
+}
+
+$tugas = $fileTugasController->getTugas(0, $idTugas);
+$fileAll = $fileTugasController->showFile($idTugas, "");
 ?>
 
 <!DOCTYPE html>
@@ -29,33 +74,60 @@ if ($_SESSION['auth'] == false) {
     </div>
 
     <?php if ($_SESSION['role'] == "mahasiswa") : ?>
-        <div class="row">
-            <div class="col-md-8">
-                <div class="my-4 box-shadow">
-                    <div class="card shadow p-3 py-2">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="mb-1 font-weight-bold">Deskripsi : </div>
-                                <span class="mb-1">bla bla bla</span>
+        <div class="container">
 
-                                <div class="mb-1 font-weight-bold">Mengumpulkan : </div>
-                                <span class="mb-1">-</span>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="my-4 box-shadow">
+                        <div class="card shadow p-3 py-2">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="mb-1 font-weight-bold">Deskripsi : </div>
+                                    <span class="mb-1"><?= $tugas->getDeskripsi() ?></span>
 
-                                <div class="mb-1 font-weight-bold">Lampiran : </div>
-                                <span class="mb-1">-</span>
+                                    <div class="mb-1 font-weight-bold">Mengumpulkan : </div>
+                                    <?php if ($fileTugasController->showFile($idTugas, $_SESSION['username'])) : ?>
+                                        <span class="mb-1">sudah Mengumpulkan</span>
+                                    <?php else : ?>
+                                        <span class="mb-1">-</span>
+                                    <?php endif; ?>
+
+                                    <div class="mb-1 font-weight-bold">Lampiran : </div>
+                                    <?php if ($file = $fileTugasController->showFile($idTugas, $_SESSION['username'])) : ?>
+                                        <img src="<?= $file->getPath() ?>">
+                                    <?php else : ?>
+                                        <span class="mb-1">-</span>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-4">
-                <div class="my-4 box-shadow">
-                    <div class="card shadow p-3 py-2">
-                        <div class="d-flex flex-column">
-                            <button class="btn btn-primary mt-auto mb-2">submit tugas</button>
-                            <button class="btn btn-secondary mt-auto" disabled>anda sudah submit</button>
+                <div class="col-md-4">
+                    <div class="my-4 box-shadow">
+                        <div class="card shadow p-3 py-2">
+                            <div class="d-flex flex-column">
+                                <?php $file = $fileTugasController->showFile($idTugas, $_SESSION['username']);
+                                if (!$file) : ?>
+                                    <form action="detailTugas.php" method="post" enctype="multipart/form-data">
+                                        <label class=" form-label">File Tugas : </label>
+                                        <input type="file" name="file" id="" class="form-control mb-2">
 
+                                        <label class="form-label">deskripsi : </label>
+                                        <input type="text" name="deskripsi" id="" class="form-control mb-2">
+
+                                        <input type="hidden" name="idTugas" value="<?= $_POST['tugas'] ?>">
+
+                                        <input type="submit" value="submit tugas" class="btn btn-primary mt-auto" name="submitFile">
+                                    </form>
+                                <?php else : ?>
+                                    <button class="btn btn-secondary mt-auto mb-2" disabled>anda sudah submit</button>
+                                    <?php if ($file->getNilai() != "-") : ?>
+                                        <button class="btn btn-success mt-auto" disabled>nilai : <?= $file->getNilai() ?></button>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,10 +142,10 @@ if ($_SESSION['auth'] == false) {
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="mb-1 font-weight-bold">Deskripsi : </div>
-                                    <span class="mb-1">bla bla bla</span>
+                                    <span class="mb-1"><?= $tugas->getDeskripsi() ?></span>
 
                                     <div class="mb-1 font-weight-bold">Mengumpulkan : </div>
-                                    <span class="mb-1">27 mahasiswa</span>
+                                    <span class="mb-1"><?= count($fileAll) ?></span>
                                 </div>
                             </div>
                         </div>
@@ -93,38 +165,38 @@ if ($_SESSION['auth'] == false) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>
-                                            <button class="btn btn-warning">download</button>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary">
-                                                beri nilai
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <th scope="row">2</th>
-                                    <td>Patrick</td>
-                                    <td>
-                                        <button class="btn btn-warning">download</button>
-                                    </td>
-                                    <td>
-                                        90
-                                    </td>
-                                    </tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>
-                                        <button class="btn btn-warning">download</button>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-primary">
-                                            beri nilai
-                                        </button>
-                                    </td>
-                                    </tr>
+
+                                    <?php $i = 1;
+                                    foreach ($fileAll as $file) : ?>
+                                        <tr>
+                                            <th scope="row"><?= $i++ ?></th>
+                                            <td><?= $file->getNamaUser() ?></td>
+                                            <td>
+                                                <form method="post" action="detailTugas.php">
+                                                    <input type="hidden" name="idTugas" value="<?= $idTugas ?>">
+                                                    <button class="btn btn-warning" type="submit" value="<?= $file->getId() ?>" name="download">download</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <?php if ($file->getNilai() == "-") : ?>
+                                                    <form method="post" action="detailTugas.php">
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <input type="text" name="nilai" class="form-control">
+                                                            </div>
+                                                            <input type="hidden" name="idTugas" value="<?= $idTugas ?>">
+                                                            <div class="col-md-4">
+                                                                <button class="btn btn-primary" type="submit" value="<?= $file->getId() ?>" name="insertNilai">beri Nilai</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                <?php else : ?>
+                                                    <?= $file->getNilai() ?>
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+
                                 </tbody>
                             </table>
                         </div>
