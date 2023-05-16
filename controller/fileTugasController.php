@@ -76,7 +76,7 @@ namespace Controller {
         // TUGAS
         public function createTugas(string $nama, string $deskripsi, string $idMatkul, string $namaMatkul)
         {
-            $this->repository->insertTugas(new Tugass($nama, $deskripsi, $namaMatkul));
+            $this->repository->insertTugas(new Tugass($nama, $deskripsi, $idMatkul));
             header("location: ../../view/fileManagement/tugas.php?b=" . $idMatkul . "&a=" . $namaMatkul);
         }
 
